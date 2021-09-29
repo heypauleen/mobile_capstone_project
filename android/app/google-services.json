@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1098131102146",
+    "project_id": "zspdoho-79021",
+    "storage_bucket": "zspdoho-79021.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1098131102146:android:de9d65f065eebeef31de5b",
+        "android_client_info": {
+          "package_name": "com.zspdoho.my_capstone_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1098131102146-11h54vev4ka5kha9ft9tn585fvs5gc7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAA-b9r5NPIr68rPUj-FreYI-ERrKDCDHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1098131102146-11h54vev4ka5kha9ft9tn585fvs5gc7q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
