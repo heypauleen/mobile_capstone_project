@@ -4,31 +4,15 @@ import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
+  final Shader linearGradient = LinearGradient(
+    colors: <Color>[Color(0xff006C35), Color(0xff4BBE83)],
+  ).createShader(
+    Rect.fromLTWH(0.0, 70.0, 0.0, 200.0),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget> [
-            Icon(
-              Icons.notifications_none_outlined,
-              color: Color(0xff727272),
-              size: 40,
-            ),
-            SizedBox(width: 10.0),
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2021/01/04/10/41/icon-5887126_960_720.png"),
-            )
-          ],
-        )
-      ),
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -189,10 +173,18 @@ class Home extends StatelessWidget {
               ),
               Padding( //FourthRow
                 padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                child: Image(
-                  height: 50,
-                  image: AssetImage("assets/images/zsppdohoupdates_text.png"),
+                child: Center(
+                  child: Text (
+                    "ZSP PDOHO CALENDAR",
+                    style: TextStyle(fontSize:25, fontFamily: 'Product Sans', fontWeight: FontWeight.bold,
+                        foreground: Paint()..shader = linearGradient),
+                  ),
                 )
+
+                // Image(
+                //   height: 50,
+                //   image: AssetImage("assets/images/zsppdohoupdates_text.png"),
+                // )
               ),
               Flexible(
                 child: Padding( //FifthRow

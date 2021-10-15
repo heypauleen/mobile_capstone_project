@@ -12,7 +12,27 @@ class Tab_Bar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget> [
+                Icon(
+                  Icons.notifications_none_outlined,
+                  color: Color(0xff727272),
+                  size: 40,
+                ),
+                SizedBox(width: 10.0),
+                CircleAvatar(
+                  radius: 20,
+                  backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2021/01/04/10/41/icon-5887126_960_720.png"),
+                )
+              ],
+            )
+        ),
       body: Container(
       child: CupertinoTabScaffold(
         tabBar: CupertinoTabBar(
@@ -24,8 +44,8 @@ class Tab_Bar extends StatelessWidget {
                   icon: Icon(CupertinoIcons.home)
               ),
               BottomNavigationBarItem(
-                  label: "Search",
-                  icon: Icon(CupertinoIcons.search)
+                  label: "Updates",
+                  icon: Icon(CupertinoIcons.calendar)
               ),
               BottomNavigationBarItem(
                   label: "Reports",

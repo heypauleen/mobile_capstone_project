@@ -67,6 +67,7 @@ flutter:
     - family: Product Sans
       fonts:
         - asset: assets/fonts/ProductSans-Regular.ttf
+        - asset: assets/fonts/ProductSans-Bold.ttf
 
   #   - family: Trajan Pro
   #     fonts:
