@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:my_capstone_project/screens/main_pages/home.dart';
-import 'package:my_capstone_project/screens/main_pages/tab_bar.dart';
+import 'dart:developer' as devtools show log;
+
+import 'package:my_capstone_project/constants/routes.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -10,10 +12,25 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  late final TextEditingController _email;
+  late final TextEditingController _password;
+ 
+  @override
+  void initState() {
+    _email = TextEditingController();
+    _password = TextEditingController();
+    super.initState();
+  }
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Container(
         constraints: BoxConstraints.expand(),
         decoration: BoxDecoration(
@@ -38,6 +55,9 @@ class _SignInState extends State<SignIn> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical:16),
                 child: TextFormField(
+                  controller: _email,
+                  enableSuggestions: false,
+                  autocorrect: false,
                   decoration: InputDecoration(
                     focusColor: Colors.green,
                     focusedBorder: OutlineInputBorder(
@@ -47,7 +67,7 @@ class _SignInState extends State<SignIn> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
-                    labelText: "Username",
+                    labelText: "Email",
                     labelStyle: TextStyle(color: Color(0xff4BBE83))
                   ),
                 ),
@@ -55,6 +75,10 @@ class _SignInState extends State<SignIn> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical:2),
                 child: TextFormField(
+                  controller: _password,
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
                   decoration: InputDecoration(
                     focusColor: Color(0xff4BBE83),
                     focusedBorder: OutlineInputBorder(
@@ -78,25 +102,77 @@ class _SignInState extends State<SignIn> {
                       textStyle: const TextStyle(fontSize:14),
                       primary: Color(0xff4BBE83),
                       fixedSize:Size(0, 55)),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Tab_Bar()),
-                    );
+                  onPressed: () async {
+                    //Navigator.push(context, MaterialPageRoute(builder: (context) => Tab_Bar()),
+                    //);
+                    final email = _email.text;
+                    final password = _password.text;
+                    try {
+                      final userCredential = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                          email: email, 
+                          password: password);
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                            homePageRoute, 
+                            (route) => false
+                          );
+                    } on FirebaseAuthException catch (e) {
+                      if(e.code == 'user-not-found') {
+                        await showErrorDialog(context, "User not found");
+                        devtools.log('user not found'); //change later
+                      } else if (e.code == 'wrong-password') {
+                        await showErrorDialog(context, "Wrong credentials"); //change later
+                      } else {
+                        await showErrorDialog(
+                          context, 
+                          'Error: ${e.code}',
+                        );
+                      }
+                    } catch (e) {
+                      await showErrorDialog(
+                        context, 
+                        e.toString()
+                      );
+                    }
+      
                   },
                   child: const Text ('Login'),
-
+      
                 ),
               ),
               Center(
-                child: Text("Forgot Password",
+                child: Text("Forgot your password? Click here",
                   style: const TextStyle(fontSize: 14, color: Colors.grey)
                 )
               )
+      
             ],
           ),
         )
-
-
       ),
-      );
+    );
   }
+}
+
+Future<void> showErrorDialog(
+  BuildContext context,
+  String text,
+) {
+  return showDialog(
+    context: context, 
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("An error occured"),
+        content: Text(text),
+        actions: [
+          TextButton(
+            onPressed: (){
+              Navigator.of(context).pop();
+            }, 
+            child: const Text('OK')
+          ),
+        ]
+      );
+    },
+  );
 }

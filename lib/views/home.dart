@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
@@ -12,8 +11,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
+    return Container(
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage('assets/images/bg_home.png'),
@@ -36,7 +34,7 @@ class Home extends StatelessWidget {
                     ),
                     SizedBox(width: 10.0),
                     Text(
-                      "Monday, March 01, 2021",
+                      "Monday, March 01, 2022",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 18,
@@ -189,16 +187,15 @@ class Home extends StatelessWidget {
               Flexible(
                 child: Padding( //FifthRow
                   padding: const EdgeInsets.all(8.0),
-                  child: SfCalendar(
-                    view: CalendarView.month,
-                    todayHighlightColor: Color(0xff4BBE83),
-                  ),
+                  // child: SfCalendar(
+                  //   view: CalendarView.month,
+                  //   todayHighlightColor: Color(0xff4BBE83),
+                  
                 ),
               )
             ],
           ),
         )
-      ),
-    );
+      );
   }
 }

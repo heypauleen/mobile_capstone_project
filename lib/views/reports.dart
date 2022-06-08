@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:my_capstone_project/screens/reports/coaching_and_monitoring.dart';
-import 'package:my_capstone_project/screens/reports/local_health_board_monitoring.dart';
-import 'package:my_capstone_project/screens/reports/monitoring_activity_log.dart';
+import 'package:my_capstone_project/views/reports/coaching_and_monitoring.dart';
+import 'package:my_capstone_project/views/reports/local_health_board_monitoring.dart';
+import 'package:my_capstone_project/views/reports/monitoring_activity_log.dart';
 
 class Reports extends StatelessWidget {
   Reports({Key? key}) : super(key: key);
