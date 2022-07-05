@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_capstone_project/constants/routes.dart';
-import 'package:my_capstone_project/services/auth_service.dart';
+import 'package:my_capstone_project/services/auth/auth_service.dart';
+import 'package:my_capstone_project/services/auth/bloc/auth_bloc.dart';
+import 'package:my_capstone_project/services/auth/bloc/auth_event.dart';
 import 'package:my_capstone_project/views/home.dart';
 import 'package:my_capstone_project/views/reports.dart';
 import 'package:my_capstone_project/views/search.dart';
 import 'package:my_capstone_project/views/user_settings.dart';
-import 'dart:developer' as devtools show log;
+import '../utilities/dialogs/logout_dialog.dart';
 
 enum MenuAction { logout }
 
@@ -42,9 +45,9 @@ class App_Bar extends StatelessWidget {
                       case MenuAction.logout:
                         final shouldLogout = await showLogOutDialog(context);
                         if (shouldLogout) {
-                          await AuthService.firebase().logOut();
-                          Navigator.of(context).pushNamedAndRemoveUntil(
-                              loginRoute, (route) => false);
+                          context.read<AuthBloc>().add(
+                                const AuthEventLogout(),
+                              );
                         }
                     }
                   },
@@ -77,28 +80,4 @@ class App_Bar extends StatelessWidget {
           ),
         ));
   }
-}
-
-Future<bool> showLogOutDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text("Sign out"),
-        content: const Text("Are you sure you want to log out?"),
-        actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text("Cancel")),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: const Text("Logout"))
-        ],
-      );
-    },
-  ).then((value) => value ?? false);
 }

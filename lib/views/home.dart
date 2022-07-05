@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart' as cal;
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
@@ -186,11 +187,11 @@ class Home extends StatelessWidget {
               Flexible(
                 child: Padding( //FifthRow
                   padding: const EdgeInsets.all(8.0),
-                  // child: SfCalendar(
-                  //   view: CalendarView.month,
-                  //   todayHighlightColor: Color(0xff4BBE83),
-                  
-                ),
+                    child: cal.SfCalendar(
+                      view: cal.CalendarView.month,
+                      todayHighlightColor: Color(0xff4BBE83),
+                    ),
+                )
               )
             ],
           ),

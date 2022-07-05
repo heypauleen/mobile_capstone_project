@@ -1,4 +1,4 @@
-import 'package:my_capstone_project/services/firebase_auth_provider.dart';
+import 'package:my_capstone_project/services/auth/firebase_auth_provider.dart';
 
 import 'auth_provider.dart';
 import 'auth_user.dart';
