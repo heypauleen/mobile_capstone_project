@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:my_capstone_project/constants/fonts.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+
+import '../constants/gradient.dart';
 
 class Home extends StatelessWidget {
-  Home({Key? key}) : super(key: key);
-  final Shader linearGradient = LinearGradient(
-    colors: <Color>[Color(0xff006C35), Color(0xff4BBE83)],
-  ).createShader(
-    Rect.fromLTWH(0.0, 70.0, 0.0, 200.0),
-  );
+  const Home({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/images/bg_home.png'),
-                fit: BoxFit.cover
-            )
-        ),
+        // decoration: BoxDecoration(
+        //     image: DecorationImage(
+        //         image: AssetImage('assets/images/bg_home.png'),
+        //         fit: BoxFit.cover
+        //     )
+        // ),
         child: SafeArea(
           child: Column ( //6 rows to be inserted here
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -83,8 +82,9 @@ class Home extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontFamily: "Product Sans",
+                                    fontFamily: fontFamily,
                                     letterSpacing: 2.0,
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                 ),),
                             ),
                             Padding(
@@ -93,8 +93,9 @@ class Home extends StatelessWidget {
                                 "(Current Location)",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontFamily: "Product Sans",
+                                    fontFamily: fontFamily,
                                     fontSize: 20,
+                                    color: Color.fromARGB(255, 255, 255, 255),
                                     letterSpacing: 1.5,),
                               ),
                             ),
@@ -186,11 +187,12 @@ class Home extends StatelessWidget {
               Flexible(
                 child: Padding( //FifthRow
                   padding: const EdgeInsets.all(8.0),
-                  // child: SfCalendar(
-                  //   view: CalendarView.month,
-                  //   todayHighlightColor: Color(0xff4BBE83),
+                    child: SfCalendar(
+                    view: CalendarView.month,
+                      todayHighlightColor: Color(0xff4BBE83),
                   
                 ),
+              )
               )
             ],
           ),
