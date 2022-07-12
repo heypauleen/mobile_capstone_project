@@ -5,7 +5,7 @@ import 'package:my_capstone_project/view/homepage.dart';
 import 'package:my_capstone_project/view/reports.dart';
 import 'package:my_capstone_project/view/search.dart';
 import 'package:my_capstone_project/view/user_settings.dart';
-import 'package:my_capstone_project/view_model/buttonnavibar_notifier.dart';
+import 'package:my_capstone_project/view_model/bottomnavibar_notifier.dart';
 
 enum MenuAction { logout }
 

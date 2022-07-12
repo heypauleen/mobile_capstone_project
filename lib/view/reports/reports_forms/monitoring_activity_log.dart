@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_capstone_project/constants/gradient.dart';
+import 'package:my_capstone_project/view/appbar.dart';
 import 'package:my_capstone_project/view_model/controllers/mal_reports_controller.dart';
+import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
 class MonitoringActivityLog extends ConsumerStatefulWidget {
@@ -44,28 +46,12 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
 
   @override
   Widget build(BuildContext context) {
+    final reportTransitionNotifier =
+        ref.watch(reportsTransitionProvider.notifier);
     final _auth = ref.watch(authenticationServicesProvider);
     return Scaffold(
+      //appBar: appBar(context, ref, 'Monitoring Activity Log'),
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Icon(
-                Icons.notifications_none_outlined,
-                color: Color(0xff727272),
-                size: 40,
-              ),
-              SizedBox(width: 10.0),
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage(
-                    "https://cdn.pixabay.com/photo/2021/01/04/10/41/icon-5887126_960_720.png"),
-              )
-            ],
-          )),
       body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
@@ -76,10 +62,24 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
+                  GestureDetector(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
+                      child: const Text(
+                        '< Back',
+                        style:
+                            TextStyle(color: Color.fromARGB(255, 57, 166, 133)),
+                      ),
+                    ),
+                    onTap: () {
+                      reportTransitionNotifier.pushHomePage();
+                      
+                    },
+                  ),
                   Text(
                     "Monitoring Activity Log",
                     style: TextStyle(
-                        fontSize: 27,
+                        fontSize: 23,
                         fontFamily: 'Product Sans',
                         fontWeight: FontWeight.bold,
                         foreground: Paint()..shader = linearGradient),
@@ -315,7 +315,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 15),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 14),
@@ -332,7 +332,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                             findings: _findings.text,
                             conforme: _conforme.text);
                       },
-                      child: const Text('DONE'),
+                      child: const Text('DONE', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ],

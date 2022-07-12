@@ -13,7 +13,7 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context, ref),
+      //appBar: appBar(context, ref),
 
     );
   }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_capstone_project/constants/enums/menu_action.dart';
+import 'package:my_capstone_project/constants/gradient.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
 AppBar appBar(BuildContext context, WidgetRef ref) {
   final _auth = ref.watch(authenticationServicesProvider);
   return AppBar(
-      automaticallyImplyLeading: false,
       backgroundColor: Colors.transparent,
-      elevation: 0,
+     elevation: 0,
+       automaticallyImplyLeading: true,
       leading: TextButton(
         onPressed: () {},
         child: Icon(
@@ -17,6 +18,15 @@ AppBar appBar(BuildContext context, WidgetRef ref) {
           size: 30,
         ),
       ),
+      // title: Text(
+      //   title.toString(),
+      //   style: TextStyle(
+      //       fontSize: 23,
+      //       fontFamily: 'Product Sans',
+      //       fontWeight: FontWeight.bold,
+      //       foreground: Paint()..shader = linearGradient),
+      //   textAlign: TextAlign.center,
+      // ),
       actions: [
         PopupMenuButton<MenuAction>(
             icon: CircleAvatar(

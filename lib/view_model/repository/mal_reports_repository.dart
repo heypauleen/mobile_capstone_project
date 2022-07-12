@@ -25,7 +25,7 @@ class MalReportsRepository implements BaseMalReportsRepository {
       await _read(firebaseFirestoreProvider)
           .collection('mal_reports')
           .doc()
-          .set(malReports.toJson());
+          .set(malReports.toDocument());
     } on FirebaseException catch (e) {
       throw GenericAuthException(message: e.message);
     }

@@ -1,11 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_capstone_project/view/reports/reports_forms/coaching_and_monitoring.dart';
+import 'package:my_capstone_project/view/reports/reports_forms/local_health_board_monitoring.dart';
+import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
+import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
 
-import '../constants/gradient.dart';
+import '../constants/gradient.dart' as gradient;
 
-class Reports extends StatelessWidget {
+class Reports extends ConsumerWidget {
   const Reports({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final reportsTransitionState = ref.watch(reportsTransitionProvider);
+  
+    return Navigator(
+      pages: [
+        const MaterialPage(
+          child: Menu(),
+        ),
+         if (reportsTransitionState.reportsTransitionId == 0)
+          const MaterialPage(
+            child: Menu(),
+          ),
+        if (reportsTransitionState.reportsTransitionId == 1)
+          const MaterialPage(
+            child: MonitoringActivityLog(),
+          ),
+        if (reportsTransitionState.reportsTransitionId == 2)
+          const MaterialPage(
+            child: CoachingAndMonitoring(),
+          ),
+        if (reportsTransitionState.reportsTransitionId == 3)
+          const MaterialPage(
+            child: LocalHealthBoardMonitoring(),
+          ),
+      ],
+      onPopPage: (route, result) {
+        if (!route.didPop(result)) {
+          return false;
+        }
+        return true;
+      },
+    );
+  }
+}
+
+class Menu extends ConsumerWidget {
+  const Menu({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final reportsTransitionNotifier =
+        ref.watch(reportsTransitionProvider.notifier);
     return Container(
       child: SafeArea(
           child: Column(
@@ -16,48 +62,46 @@ class Reports extends StatelessWidget {
             //Monitoring Activity Log button
             padding: EdgeInsets.all(8.0),
             child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: Size(75, 00),
-                primary: Color(0xffFFFFFF),
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                textStyle: TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Product Sans',
-                    color: Colors.grey),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-              ),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image(
-                      image: AssetImage('assets/images/resources_logo.png'),
-                      height: 50,
-                      width: 50,
-                      fit: BoxFit.fitWidth,
-                    ),
-                    Text(
-                      "Monitoring Activity Log",
-                      style: TextStyle(
-                          fontSize: 25,
-                          fontFamily: 'Product Sans',
-                          letterSpacing: .7,
-                          fontWeight: FontWeight.bold,
-                          foreground: Paint()..shader = linearGradient),
-                    ),
-                  ]),
-              onPressed: () {
-                //Report_OnClick(context, "MAL");
-              },
-            ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(75, 00),
+                  primary: Color(0xffFFFFFF),
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                  textStyle: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'Product Sans',
+                      color: Colors.grey),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                ),
+                child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Image(
+                        image: AssetImage('assets/images/resources_logo.png'),
+                        height: 50,
+                        width: 50,
+                        fit: BoxFit.fitWidth,
+                      ),
+                      Text(
+                        "Monitoring Activity Log",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontFamily: 'Product Sans',
+                            letterSpacing: .7,
+                            fontWeight: FontWeight.bold,
+                            foreground: Paint()
+                              ..shader = gradient.linearGradient),
+                      ),
+                    ]),
+                onPressed: () =>
+                    reportsTransitionNotifier.pushMALReportsPage()),
           ),
           Padding(
               // Coaching and monitoring report
               padding: EdgeInsets.all(8.0),
               child: ElevatedButton(
-                  onPressed: () {
-                    ///Report_OnClick(context, "CMR");
-                  },
+                  onPressed: () =>
+                      reportsTransitionNotifier.pushCMRReportsPage(),
                   style: ElevatedButton.styleFrom(
                       minimumSize: Size(75, 00),
                       primary: Color(0xffFFFFFF),
@@ -85,7 +129,8 @@ class Reports extends StatelessWidget {
                                   fontSize: 25,
                                   fontFamily: 'Product Sans',
                                   fontWeight: FontWeight.bold,
-                                  foreground: Paint()..shader = linearGradient),
+                                  foreground: Paint()
+                                    ..shader = gradient.linearGradient),
                             ),
                             Text(
                               "Report",
@@ -93,7 +138,8 @@ class Reports extends StatelessWidget {
                                   fontSize: 25,
                                   fontFamily: 'Product Sans',
                                   fontWeight: FontWeight.bold,
-                                  foreground: Paint()..shader = linearGradient),
+                                  foreground: Paint()
+                                    ..shader = gradient.linearGradient),
                             ),
                           ]),
                         )
@@ -102,9 +148,8 @@ class Reports extends StatelessWidget {
               // Coaching and monitoring report
               padding: EdgeInsets.all(8.0),
               child: ElevatedButton(
-                  onPressed: () {
-                    //Report_OnClick(context, "LHB");
-                  },
+                  onPressed: () =>
+                      reportsTransitionNotifier.pushHomePage(),
                   style: ElevatedButton.styleFrom(
                       minimumSize: Size(75, 00),
                       primary: Color(0xffFFFFFF),
@@ -132,7 +177,8 @@ class Reports extends StatelessWidget {
                                   fontSize: 25,
                                   fontFamily: 'Product Sans',
                                   fontWeight: FontWeight.bold,
-                                  foreground: Paint()..shader = linearGradient),
+                                  foreground: Paint()
+                                    ..shader = gradient.linearGradient),
                             ),
                             Text(
                               "Monitoring Report",
@@ -140,7 +186,8 @@ class Reports extends StatelessWidget {
                                   fontSize: 25,
                                   fontFamily: 'Product Sans',
                                   fontWeight: FontWeight.bold,
-                                  foreground: Paint()..shader = linearGradient),
+                                  foreground: Paint()
+                                    ..shader = gradient.linearGradient),
                             ),
                           ]),
                         )
@@ -149,13 +196,4 @@ class Reports extends StatelessWidget {
       )),
     );
   }
-}
-
-void Report_OnClick(BuildContext context, String reporttype) {
-  // if(reporttype == "MAL")
-  //   Navigator.push(context, MaterialPageRoute(builder: (context) => MonitoringActivityLog()));
-  // if(reporttype == "CMR")
-  //   Navigator.push(context, MaterialPageRoute(builder: (context) => CoachingAndMonitoring()));
-  // if(reporttype == "LHB")
-  //   Navigator.push(context, MaterialPageRoute(builder: (context) => LocalHealthBoardMonitoring()));
 }

@@ -20,6 +20,7 @@ MalReports _$MalReportsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MalReports {
+//required String id,
   String get userId => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
   String get barangayHealthStation => throw _privateConstructorUsedError;
@@ -186,6 +187,7 @@ class _$_MalReports extends _MalReports {
   factory _$_MalReports.fromJson(Map<String, dynamic> json) =>
       _$$_MalReportsFromJson(json);
 
+//required String id,
   @override
   final String userId;
   @override
@@ -260,7 +262,7 @@ abstract class _MalReports extends MalReports {
   factory _MalReports.fromJson(Map<String, dynamic> json) =
       _$_MalReports.fromJson;
 
-  @override
+  @override //required String id,
   String get userId => throw _privateConstructorUsedError;
   @override
   String get date => throw _privateConstructorUsedError;

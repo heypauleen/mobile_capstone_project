@@ -16,25 +16,6 @@ class _MonitoringActivityLogState extends State<CoachingAndMonitoring> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget> [
-              Icon(
-                Icons.notifications_none_outlined,
-                color: Color(0xff727272),
-                size: 40,
-              ),
-              SizedBox(width: 10.0),
-              CircleAvatar(
-                radius: 20,
-                backgroundImage: NetworkImage("https://cdn.pixabay.com/photo/2021/01/04/10/41/icon-5887126_960_720.png"),
-              )
-            ],
-          )
-      ),
       body: Container(
           decoration: BoxDecoration(
               image: DecorationImage(
