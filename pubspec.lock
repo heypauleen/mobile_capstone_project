@@ -183,6 +183,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.3"
+  dot_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: dot_navigation_bar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1+4"
   fake_async:
     dependency: transitive
     description:
@@ -281,7 +288,7 @@ packages:
       name: freezed
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.3+1"
+    version: "2.0.5"
   freezed_annotation:
     dependency: "direct main"
     description:
@@ -358,14 +365,14 @@ packages:
       name: json_annotation
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.5.0"
+    version: "4.6.0"
   json_serializable:
     dependency: "direct dev"
     description:
       name: json_serializable
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.2.0"
+    version: "6.3.1"
   logging:
     dependency: transitive
     description:
@@ -531,21 +538,21 @@ packages:
       name: syncfusion_flutter_calendar
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.2.36"
+    version: "20.2.38"
   syncfusion_flutter_core:
     dependency: transitive
     description:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.2.36"
+    version: "20.2.38"
   syncfusion_flutter_datepicker:
     dependency: transitive
     description:
       name: syncfusion_flutter_datepicker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "20.2.36"
+    version: "20.2.38"
   term_glyph:
     dependency: transitive
     description:

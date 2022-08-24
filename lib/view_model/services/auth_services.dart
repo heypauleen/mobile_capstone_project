@@ -7,6 +7,7 @@ abstract class BaseAuthServices {
   Stream<User?> get authStateChanges;
   Future<void> signIn({required String email, required String password});
   User? getCurrentUser();
+  String getCurrentUserId();
   Future<void> signOut();
 }
 
@@ -27,6 +28,15 @@ class AuthenticationService with BaseAuthServices {
   User? getCurrentUser() {
     try {
       return _read(firebaseAuthProvider).currentUser;
+    } on FirebaseAuthException catch (_) {
+      throw GenericAuthException();
+    }
+  }
+
+  @override
+  String getCurrentUserId() {
+    try {
+      return _read(firebaseAuthProvider).currentUser!.uid.toString();
     } on FirebaseAuthException catch (_) {
       throw GenericAuthException();
     }

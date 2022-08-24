@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_capstone_project/constants/gradient.dart';
-import 'package:my_capstone_project/view/appbar.dart';
-import 'package:my_capstone_project/view_model/controllers/mal_reports_controller.dart';
+import 'package:my_capstone_project/constants/style.dart';
+import 'package:my_capstone_project/view/widgets/back_button.dart';
+import 'package:my_capstone_project/view_model/repository/mal_reports_repository.dart';
 import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
@@ -50,32 +50,20 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
         ref.watch(reportsTransitionProvider.notifier);
     final _auth = ref.watch(authenticationServicesProvider);
     return Scaffold(
-      //appBar: appBar(context, ref, 'Monitoring Activity Log'),
+      extendBody: true,
       extendBodyBehindAppBar: true,
       body: Container(
           decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/bg_home.png'),
-                  fit: BoxFit.fill)),
+            image: DecorationImage(
+                image: AssetImage('assets/images/bg_home.png'),
+                fit: BoxFit.fill),
+          ),
           child: SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  GestureDetector(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: const Text(
-                        '< Back',
-                        style:
-                            TextStyle(color: Color.fromARGB(255, 57, 166, 133)),
-                      ),
-                    ),
-                    onTap: () {
-                      reportTransitionNotifier.pushHomePage();
-                      
-                    },
-                  ),
+                  MyBackButton(),
                   Text(
                     "Monitoring Activity Log",
                     style: TextStyle(
@@ -201,7 +189,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                     child: TextFormField(
                       controller: _activities,
                       keyboardType: TextInputType.multiline,
-                      minLines: 1,
+                      minLines: 3,
                       maxLines: 5,
                       decoration: InputDecoration(
                         focusColor: Color(0xff4BBE83),
@@ -224,8 +212,8 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                         ),
                         labelStyle: TextStyle(color: Color(0xff4BBE83)),
                         contentPadding: EdgeInsets.symmetric(
-                          vertical: 30,
-                          horizontal: 20,
+                          vertical: 10,
+                          horizontal: 10,
                         ),
                       ),
                     ),
@@ -241,11 +229,10 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                   ),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                    //height: 500,
                     child: TextFormField(
                       controller: _findings,
                       keyboardType: TextInputType.multiline,
-                      minLines: 1,
+                      minLines: 3,
                       maxLines: 5,
                       decoration: InputDecoration(
                         focusColor: Color(0xff4BBE83),
@@ -268,8 +255,8 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                         ),
                         labelStyle: TextStyle(color: Color(0xff4BBE83)),
                         contentPadding: EdgeInsets.symmetric(
-                          vertical: 30,
-                          horizontal: 20,
+                          vertical: 10,
+                          horizontal: 10,
                         ),
                       ),
                     ),
@@ -323,8 +310,8 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                         fixedSize: Size(0, 50),
                       ),
                       onPressed: () {
-                        ref.read(malReportsControllerProvider).addMalReports(
-                            userId: _auth.getCurrentUser()!.uid.toString(),
+                        ref.read(malReportsRepositoryProvider).addMalReports(
+                            userId: _auth.getCurrentUserId(),
                             date: _date.text,
                             barangayHealthStation: _bhs.text,
                             ruralHEalthUnit: _rhu.text,
@@ -332,7 +319,10 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                             findings: _findings.text,
                             conforme: _conforme.text);
                       },
-                      child: const Text('DONE', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                      child: const Text('DONE',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)),
                     ),
                   ),
                 ],

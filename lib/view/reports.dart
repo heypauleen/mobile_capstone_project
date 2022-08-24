@@ -3,22 +3,23 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/coaching_and_monitoring.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/local_health_board_monitoring.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
+import 'package:my_capstone_project/view/reports/reports_list.dart';
 import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
 
-import '../constants/gradient.dart' as gradient;
+import '../constants/style.dart' as gradient;
 
 class Reports extends ConsumerWidget {
   const Reports({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final reportsTransitionState = ref.watch(reportsTransitionProvider);
-  
+
     return Navigator(
       pages: [
         const MaterialPage(
           child: Menu(),
         ),
-         if (reportsTransitionState.reportsTransitionId == 0)
+        if (reportsTransitionState.reportsTransitionId == 0)
           const MaterialPage(
             child: Menu(),
           ),
@@ -33,6 +34,10 @@ class Reports extends ConsumerWidget {
         if (reportsTransitionState.reportsTransitionId == 3)
           const MaterialPage(
             child: LocalHealthBoardMonitoring(),
+          ),
+        if (reportsTransitionState.reportsTransitionId == 4)
+          const MaterialPage(
+            child: ReportsList(),
           ),
       ],
       onPopPage: (route, result) {
@@ -74,7 +79,7 @@ class Menu extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(5)),
                 ),
                 child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Image(
                         image: AssetImage('assets/images/resources_logo.png'),
@@ -82,19 +87,23 @@ class Menu extends ConsumerWidget {
                         width: 50,
                         fit: BoxFit.fitWidth,
                       ),
-                      Text(
-                        "Monitoring Activity Log",
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontFamily: 'Product Sans',
-                            letterSpacing: .7,
-                            fontWeight: FontWeight.bold,
-                            foreground: Paint()
-                              ..shader = gradient.linearGradient),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            "Monitoring Activity Log",
+                            style: TextStyle(
+                                fontSize: 25,
+                                fontFamily: 'Product Sans',
+                                //letterSpacing: .0,
+                                fontWeight: FontWeight.bold,
+                                foreground: Paint()
+                                  ..shader = gradient.linearGradient),
+                          ),
+                        ),
                       ),
                     ]),
-                onPressed: () =>
-                    reportsTransitionNotifier.pushMALReportsPage()),
+                onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => ReportsList()))),
           ),
           Padding(
               // Coaching and monitoring report
@@ -122,9 +131,10 @@ class Menu extends ConsumerWidget {
                           fit: BoxFit.fitWidth,
                         ),
                         Expanded(
-                          child: Column(children: <Widget>[
-                            Text(
-                              "Coaching and Monitoring",
+                          child: Center(
+                            child: Text(
+                              "Coaching and Monitoring \nReport",
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 25,
                                   fontFamily: 'Product Sans',
@@ -132,16 +142,7 @@ class Menu extends ConsumerWidget {
                                   foreground: Paint()
                                     ..shader = gradient.linearGradient),
                             ),
-                            Text(
-                              "Report",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontFamily: 'Product Sans',
-                                  fontWeight: FontWeight.bold,
-                                  foreground: Paint()
-                                    ..shader = gradient.linearGradient),
-                            ),
-                          ]),
+                          ),
                         )
                       ]))),
           Padding(
@@ -149,7 +150,7 @@ class Menu extends ConsumerWidget {
               padding: EdgeInsets.all(8.0),
               child: ElevatedButton(
                   onPressed: () =>
-                      reportsTransitionNotifier.pushHomePage(),
+                      reportsTransitionNotifier.pushLHBReportsPage(),
                   style: ElevatedButton.styleFrom(
                       minimumSize: Size(75, 00),
                       primary: Color(0xffFFFFFF),
@@ -160,7 +161,7 @@ class Menu extends ConsumerWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5))),
                   child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Image(
                           image:
@@ -172,16 +173,7 @@ class Menu extends ConsumerWidget {
                         Expanded(
                           child: Column(children: <Widget>[
                             Text(
-                              "Local Health Board",
-                              style: TextStyle(
-                                  fontSize: 25,
-                                  fontFamily: 'Product Sans',
-                                  fontWeight: FontWeight.bold,
-                                  foreground: Paint()
-                                    ..shader = gradient.linearGradient),
-                            ),
-                            Text(
-                              "Monitoring Report",
+                              "Local Health Board \n Monitoring Report",
                               style: TextStyle(
                                   fontSize: 25,
                                   fontFamily: 'Product Sans',

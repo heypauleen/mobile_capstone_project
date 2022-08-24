@@ -20,6 +20,9 @@ class ReportsTransitionNotifier extends StateNotifier<ReportsTransitionState> {
   void pushLHBReportsPage() async {
     state = state.copyWith(reportsTransitionId: 3);
   }
+  void pushReportsList() async {
+    state = state.copyWith(reportsTransitionId: 4);
+  }
 }
 
 final reportsTransitionProvider = StateNotifierProvider.autoDispose<

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_capstone_project/constants/fonts.dart';
+import 'package:my_capstone_project/constants/style.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
-import '../constants/gradient.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -174,8 +174,7 @@ class Home extends StatelessWidget {
                 child: Center(
                   child: Text (
                     "ZSP PDOHO CALENDAR",
-                    style: TextStyle(fontSize:25, fontFamily: 'Product Sans', fontWeight: FontWeight.bold,
-                        foreground: Paint()..shader = linearGradient),
+                    style: textStyleHeadings,
                   ),
                 )
 

@@ -10,7 +10,7 @@ abstract class MalReports implements _$MalReports {
   const MalReports._();
 
   factory MalReports({
-    //required String id,
+    //  required String id,
     required String userId,
     required String date,
     required String barangayHealthStation,
