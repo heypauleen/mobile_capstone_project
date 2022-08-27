@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_capstone_project/constants/enums/menu_action.dart';
 import 'package:my_capstone_project/constants/style.dart';
 import 'package:my_capstone_project/model/mal_reports.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
+import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
 import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
@@ -22,8 +24,6 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
   Widget build(BuildContext context) {
     final _auth = ref.watch(authenticationServicesProvider);
     final malreports = ref.watch(malReportsRepositoryProvider);
-    final reportsTransitionNotifier =
-        ref.watch(reportsTransitionProvider.notifier);
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
@@ -49,24 +49,23 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
                   shadowColor: lightGray,
                   child: TextFormField(
                     decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        icon: Icon(
-                          Icons.search,
-                          color: lightestGray,
-                        ),
-                        hintText: 'Search here',
-                        hintStyle: TextStyle(fontSize: 15, color: lightGray),
-                        fillColor: Colors.white,
-                        suffixIcon: Icon(
-                          Icons.filter_list,
-                          color: lightGray,
-                        )
-                        //contentPadding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                        ),
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      icon: Icon(
+                        Icons.search,
+                        color: lightestGray,
+                      ),
+                      hintText: 'Search here',
+                      hintStyle: TextStyle(fontSize: 15, color: lightGray),
+                      fillColor: Colors.white,
+                      suffixIcon: Icon(
+                        Icons.filter_list,
+                        color: lightGray,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -92,40 +91,86 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
                             itemCount: _malReportsList.length,
                             itemBuilder: (context, index) {
                               final _currentReport = _malReportsList[index];
-                              final thisReport = _malReportsList[index].data();
-                              //key:Key(_malReportsList[index].id);
                               return Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 0, 15, 0),
                                 child: Card(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(8),
-                                      ),
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(8),
                                     ),
-                                    child: ListTile(
-                                      dense: false,
-                                      title: Text(_currentReport['date']),
-                                      subtitle:
-                                          Text(_currentReport['activities']),
-                                      trailing: Icon(Icons.more_vert),
-                                      onTap: () {
-                                        //print(_malReportsList[index].data());
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                MonitoringActivityLog(
-                                              reportId:
-                                                  _malReportsList[index].id,
-                                              toUpdate: true,
-                                              report:
-                                                  _malReportsList[index].data(),
-                                            ),
+                                  ),
+                                  child: ListTile(
+                                    dense: false,
+                                    title: Text(_currentReport['date']),
+                                    subtitle: Text(
+                                      _currentReport['activities'],
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    trailing: PopupMenuButton(
+                                        icon: Icon(Icons.more_vert),
+                                        itemBuilder: (context) {
+                                          return const [
+                                            PopupMenuItem<MenuAction>(
+                                                value: MenuAction.view,
+                                                child: Text('View')),
+                                            PopupMenuItem<MenuAction>(
+                                                value: MenuAction.delete,
+                                                child: Text('Delete')),
+                                          ];
+                                        },
+                                        onSelected: (value) async {
+                                          switch (value) {
+                                            case MenuAction.delete:
+                                              showDialog<bool>(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return ConfirmationPopUp()
+                                                        .deleteReport(
+                                                      context,
+                                                      "Confirm Delete",
+                                                      "Are you sure you want to delete this report? This action can't be undone. ",
+                                                      ref,
+                                                      _malReportsList[index].id,
+                                                    );
+                                                  });
+                                              break;
+                                            case MenuAction.view:
+                                              Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MonitoringActivityLog(
+                                                    reportId:
+                                                        _malReportsList[index]
+                                                            .id,
+                                                    toUpdate: true,
+                                                    report:
+                                                        _malReportsList[index]
+                                                            .data(),
+                                                  ),
+                                                ),
+                                              );
+                                              break;
+                                            default:
+                                              break;
+                                          }
+                                        }),
+                                    onTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MonitoringActivityLog(
+                                            reportId: _malReportsList[index].id,
+                                            toUpdate: true,
+                                            report:
+                                                _malReportsList[index].data(),
                                           ),
-                                        );
-                                      },
-                                    )),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
                               );
                             },
                           )

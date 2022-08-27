@@ -2,7 +2,7 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_capstone_project/constants/style.dart';
-import 'package:my_capstone_project/view/widgets/appbar.dart';
+import 'package:my_capstone_project/view/widgets/app_bar.dart';
 import 'package:my_capstone_project/view/homepage.dart';
 import 'package:my_capstone_project/view/reports.dart';
 import 'package:my_capstone_project/view/search.dart';

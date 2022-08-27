@@ -5,7 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:my_capstone_project/constants/style.dart';
 import 'package:my_capstone_project/model/mal_reports.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
-import 'package:my_capstone_project/view/widgets/inputdecoration.dart';
+import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
+import 'package:my_capstone_project/view/widgets/textformfield_decoration.dart';
 import 'package:my_capstone_project/view_model/repository/mal_reports_repository.dart';
 import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
@@ -24,6 +25,7 @@ class MonitoringActivityLog extends ConsumerStatefulWidget {
 
 class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
   bool enableTextFields = true;
+  bool showSaveButton = true;
   late final TextEditingController _date,
       _bhs,
       _rhu,
@@ -49,6 +51,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
       _conforme.text = widget.report['conforme'];
 
       enableTextFields = false;
+      showSaveButton = false;
     }
 
     super.initState();
@@ -283,45 +286,111 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                             side: BorderSide(color: green)),
                         onPressed: () {
                           enableTextFields = true;
+                          showSaveButton = true;
                           setState(() {});
                         },
-                        child: Text('EDIT THIS REPORT',
+                        child: Text('CLICK HERE TO EDIT THIS REPORT',
                             style: TextStyle(
                                 color: green, fontWeight: FontWeight.bold)),
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 16, right: 16, top: 10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 14),
-                        primary: green,
-                        fixedSize: Size(0, 50),
+                  Visibility(
+                    visible: showSaveButton,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 14),
+                          primary: green,
+                          fixedSize: Size(0, 50),
+                        ),
+                        onPressed: () {
+                          final malReports = MalReports(
+                              userId: _auth.getCurrentUserId(),
+                              date: _date.text,
+                              barangayHealthStation: _bhs.text,
+                              ruralHEalthUnit: _rhu.text,
+                              activities: _activities.text,
+                              findings: _findings.text,
+                              conforme: _conforme.text);
+                          try {
+                            if (widget.toUpdate) {
+                              ref
+                                  .read(malReportsRepositoryProvider)
+                                  .editMalReport(malReports, widget.reportId!);
+                            } else {
+                              ref
+                                  .read(malReportsRepositoryProvider)
+                                  .addMalReport(malReports);
+                            }
+                            final successSnackbar = SnackBar(
+                              backgroundColor: green,
+                              content: Text(
+                                widget.toUpdate
+                                    ? 'Edited Successfully!'
+                                    : 'Added Successfully!',
+                              ),
+                              duration: Duration(seconds: 1),
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(successSnackbar)
+                                .closed
+                                .then((data) => {
+                                      widget.toUpdate
+                                          ? setState(() {
+                                              enableTextFields = false;
+                                              showSaveButton = false;
+                                            })
+                                          : Navigator.pop(context)
+                                    });
+                          } catch (e) {
+                            final failureSnackbar = SnackBar(
+                              content: Text('Error : $e'),
+                              backgroundColor: red,
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(failureSnackbar);
+                          }
+                        },
+                        child: Text('SAVE',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
                       ),
-                      onPressed: () {
-                        final malReports = MalReports(
-                            userId: _auth.getCurrentUserId(),
-                            date: _date.text,
-                            barangayHealthStation: _bhs.text,
-                            ruralHEalthUnit: _rhu.text,
-                            activities: _activities.text,
-                            findings: _findings.text,
-                            conforme: _conforme.text);
-                        if (widget.toUpdate) {
-                          ref
-                              .read(malReportsRepositoryProvider)
-                              .editMalReport(malReports, widget.reportId!);
-                        } else {
-                          ref
-                              .read(malReportsRepositoryProvider)
-                              .addMalReport(malReports);
-                        }
-                      },
-                      child: Text(widget.toUpdate ? 'SAVE' : 'DONE',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                  Visibility(
+                    visible: !enableTextFields,
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        top: 10,
+                      ),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 14),
+                          primary: red,
+                          fixedSize: Size(0, 50),
+                        ),
+                        onPressed: () {
+                          showDialog<bool>(
+                              context: context,
+                              builder: (context) {
+                                return ConfirmationPopUp().deleteReport(
+                                    context,
+                                    "Confirm Delete",
+                                    "Are you sure you want to delete this report? This action can't be undone. ",
+                                    ref,
+                                    widget.reportId);
+                              }).then((value) => Navigator.pop(context));
+                        },
+                        child: Text('DELETE THIS REPORT',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold)),
+                      ),
                     ),
                   ),
                 ],
