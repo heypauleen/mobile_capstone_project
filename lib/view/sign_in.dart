@@ -128,7 +128,11 @@ class _SignInState extends ConsumerState<SignIn> {
                         await showErrorDialog(context, 'Authentication Error');
                       }
                     },
-                    child: const Text('Login'),
+                    child: const Text(
+                      'LOGIN',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 Center(
