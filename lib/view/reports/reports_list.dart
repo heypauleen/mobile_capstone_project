@@ -71,55 +71,70 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
                 ),
               ),
               StreamBuilder(
-                  stream: malreports.allMalReports(
-                      userId: _auth.getCurrentUserId()),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    //List<QueryDocumentSnapshot> _malReportsList;
-                    //MalReports(this._malReportsList);
-                    if (!snapshot.hasData) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.error != null) {
-                      return Center(
-                          child: Text(
-                              'An error has occured while fetching the data'));
-                    } else {
-                      List<QueryDocumentSnapshot> _malReportsList =
-                          snapshot.data.docs;
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _malReportsList.length,
-                        itemBuilder: (context, index) {
-                          final _currentReport = _malReportsList[index];
-                          //key: Key(_malReportsList[index].id);
-                          return InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      MonitoringActivityLog()));
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
-                              child: Card(
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(8),
+                stream: malreports.streamAllMALReports(
+                    userId: _auth.getCurrentUserId()),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  //List<QueryDocumentSnapshot> _malReportsList;
+                  //MalReports(this._malReportsList);
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.error != null) {
+                    return Center(
+                        child: Text(
+                            'An error has occured while fetching the data'));
+                  } else {
+                    List<QueryDocumentSnapshot> _malReportsList =
+                        snapshot.data.docs;
+                    return _malReportsList.length != 0
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: _malReportsList.length,
+                            itemBuilder: (context, index) {
+                              final _currentReport = _malReportsList[index];
+                              final thisReport = _malReportsList[index].data();
+                              //key:Key(_malReportsList[index].id);
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                child: Card(
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(8),
+                                      ),
                                     ),
-                                  ),
-                                  child: ListTile(
-                                    dense: false,
-                                    title: Text(_currentReport['date']),
-                                    subtitle:
-                                        Text(_currentReport['activities']),
-                                    trailing: Icon(Icons.more_vert),
-                                  )),
-                            ),
+                                    child: ListTile(
+                                      dense: false,
+                                      title: Text(_currentReport['date']),
+                                      subtitle:
+                                          Text(_currentReport['activities']),
+                                      trailing: Icon(Icons.more_vert),
+                                      onTap: () {
+                                        //print(_malReportsList[index].data());
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                MonitoringActivityLog(
+                                              reportId:
+                                                  _malReportsList[index].id,
+                                              toUpdate: true,
+                                              report:
+                                                  _malReportsList[index].data(),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    )),
+                              );
+                            },
+                          )
+                        : Center(
+                            child: Text("No reports yet"),
                           );
-                        },
-                      );
-                    }
-                  }),
+                  }
+                },
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(5, 5, 25, 10),
@@ -127,7 +142,13 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
                     alignment: Alignment.bottomRight,
                     child: FloatingActionButton(
                       onPressed: () {
-                        reportsTransitionNotifier.pushMALReportsPage();
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => MonitoringActivityLog(
+                              toUpdate: false,
+                            ),
+                          ),
+                        );
                       },
                       backgroundColor: green,
                       child: const Icon(

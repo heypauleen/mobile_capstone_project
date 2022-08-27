@@ -31,6 +31,7 @@ dependencies:
   flutter_riverpod: ^1.0.4
   freezed_annotation: ^2.0.3
   hooks_riverpod: ^1.0.4
+  intl: ^0.17.0
   json_annotation: ^4.5.0
   syncfusion_flutter_calendar: ^20.2.36
 

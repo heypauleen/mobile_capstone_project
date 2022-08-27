@@ -24,7 +24,7 @@ class Reports extends ConsumerWidget {
             child: Menu(),
           ),
         if (reportsTransitionState.reportsTransitionId == 1)
-          const MaterialPage(
+          MaterialPage(
             child: MonitoringActivityLog(),
           ),
         if (reportsTransitionState.reportsTransitionId == 2)

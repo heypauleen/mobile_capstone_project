@@ -6,58 +6,57 @@ import 'package:my_capstone_project/view_model/provider/auth_provider.dart';
 import 'package:my_capstone_project/view_model/services/auth_exceptions.dart';
 
 final malReportsRepositoryProvider = Provider<MalReportsRepository>((ref) {
-  //final user = ref.watch(authStateProvider).value;
   return MalReportsRepository(ref.read);
 });
 
-// final firebaseIdeaProvider = StreamProvider.autoDispose<List<MalReports>>((ref) {
-//   final stream = FirebaseFirestore.instance.collection('ideas').snapshots();
-//   return stream.map((snapshot) => snapshot.docs.map((doc) => Idea.fromJson(doc.data())).toList());
-// });
-
 class MalReportsRepository {
   final Reader _read;
-  // final String? _userId;
 
   MalReportsRepository(this._read) : super();
 
-  // Stream allMalReports() {
-  //   return _read(firebaseFirestoreProvider).collection("mal_reports").where("userId", isEqualTo: userId).snapshots();
-  // }
-    Stream allMalReports({required String userId}) {
-    return _read(firebaseFirestoreProvider).collection("mal_reports").where("userId", isEqualTo: userId).snapshots();
+  Stream streamAllMALReports({required String userId}) {
+    return _read(firebaseFirestoreProvider)
+        .collection("mal_reports")
+        .where("userId", isEqualTo: userId)
+        .snapshots();
   }
 
-
-
-  Future<void> addMalReports({
-    required String userId,
-    required String date,
-    required String barangayHealthStation,
-    required String ruralHEalthUnit,
-    required String activities,
-    required String findings,
-    required String conforme,
-  }) async {
+  Future<bool> addMalReport(MalReports malReports) async {
     try {
-      final malReports = MalReports(
-          userId: userId,
-          date: date,
-          barangayHealthStation: barangayHealthStation,
-          ruralHEalthUnit: ruralHEalthUnit,
-          activities: activities,
-          findings: findings,
-          conforme: conforme);
       await _read(firebaseFirestoreProvider)
           .collection('mal_reports')
           .doc()
           .set(malReports.toJson());
+      return true;
 
-    //   state.whenData((malreports) =>
-    //       state = AsyncValue.data(malreports..add(malReports.copyWith())));
+      //   state.whenData((malreports) =>
+      //       state = AsyncValue.data(malreports..add(malReports.copyWith())));
     } on FirebaseAuthException catch (e) {
       throw GenericAuthException(message: e.message);
     }
   }
 
+  Future<bool> editMalReport(MalReports malReport, String malReportId) async {
+    try {
+      await _read(firebaseFirestoreProvider)
+          .collection('mal_reports')
+          .doc(malReportId)
+          .update(malReport.toJson());
+      return true;
+    } on FirebaseAuthException catch (e) {
+      throw GenericAuthException(message: e.message);
+    }
+  }
+
+  Future<bool> deleteMalReport(String malReportId) async {
+    try {
+      await _read(firebaseFirestoreProvider)
+          .collection('mal_reports')
+          .doc(malReportId)
+          .delete();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      throw GenericAuthException(message: e.message);
+    }
+  }
 }

@@ -100,10 +100,10 @@ class AuthChecker extends ConsumerWidget {
         }
       },
       error: (_, __) {
-        return Text('loading');
+        return SplashScreen();
       }, //TODO,
       loading: () {
-        return Text('loading');
+        return SplashScreen();
       },
     );
   }
