@@ -126,7 +126,7 @@ abstract class _ReportsTransition implements ReportsTransitionState {
       _$_ReportsTransition;
 
   @override
-  int get reportsTransitionId => throw _privateConstructorUsedError;
+  int get reportsTransitionId;
   @override
   @JsonKey(ignore: true)
   _$$_ReportsTransitionCopyWith<_$_ReportsTransition> get copyWith =>

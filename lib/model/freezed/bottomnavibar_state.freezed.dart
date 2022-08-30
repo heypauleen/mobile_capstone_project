@@ -124,7 +124,7 @@ abstract class _ButtomNaviBarState implements BottomNaviBarState {
   const factory _ButtomNaviBarState({final int index}) = _$_ButtomNaviBarState;
 
   @override
-  int get index => throw _privateConstructorUsedError;
+  int get index;
   @override
   @JsonKey(ignore: true)
   _$$_ButtomNaviBarStateCopyWith<_$_ButtomNaviBarState> get copyWith =>

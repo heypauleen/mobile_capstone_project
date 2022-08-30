@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -6,9 +5,9 @@ import 'package:my_capstone_project/constants/style.dart';
 import 'package:my_capstone_project/model/mal_reports.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
 import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
+import 'package:my_capstone_project/view/widgets/textfield_title.dart';
 import 'package:my_capstone_project/view/widgets/textformfield_decoration.dart';
 import 'package:my_capstone_project/view_model/repository/mal_reports_repository.dart';
-import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
 class MonitoringActivityLog extends ConsumerStatefulWidget {
@@ -96,17 +95,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(19, 10, 0, 0),
-                    child: Text(
-                      "Date",
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: green,
-                      ),
-                    ),
-                  ),
+                  MyTextFieldTitle(text: 'Date'),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                     child: TextFormField(
@@ -136,14 +125,8 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                       },
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(19, 10, 0, 10),
-                    child: Text("Area Monitored",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: green,
-                        )),
+                  MyTextFieldTitle(
+                    text: 'Area Monitored',
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
@@ -161,15 +144,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                         decoration: myTextFieldDecoration(
                             labelText: "Municipal/Regional Health Unit")),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(19, 0, 0, 0),
-                    child: Text("Activities",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: green,
-                        )),
-                  ),
+                  MyTextFieldTitle(text: 'Activities'),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                     //height: 500,
@@ -206,15 +181,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(19, 10, 0, 0),
-                    child: Text("Findings/Remarks",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: green,
-                        )),
-                  ),
+                  MyTextFieldTitle(text: 'Findings/Remarks'),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                     child: TextFormField(
@@ -250,15 +217,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(19, 10, 0, 0),
-                    child: Text("Conforme",
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: green,
-                        )),
-                  ),
+                  MyTextFieldTitle(text: 'Conforme'),
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                     //height: 500,
@@ -384,12 +343,15 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                                     "Are you sure you want to delete this report? This action can't be undone. ",
                                     ref,
                                     widget.reportId);
-                              }).then((value) => Navigator.pop(context));
+                              }).then(
+                            (value) => Navigator.pop(context),
+                          );
                         },
-                        child: Text('DELETE THIS REPORT',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold)),
+                        child: Text(
+                          'DELETE THIS REPORT',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),

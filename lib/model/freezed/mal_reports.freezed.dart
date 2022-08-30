@@ -20,7 +20,6 @@ MalReports _$MalReportsFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MalReports {
-//required String id,
   String get userId => throw _privateConstructorUsedError;
   String get date => throw _privateConstructorUsedError;
   String get barangayHealthStation => throw _privateConstructorUsedError;
@@ -187,7 +186,6 @@ class _$_MalReports extends _MalReports {
   factory _$_MalReports.fromJson(Map<String, dynamic> json) =>
       _$$_MalReportsFromJson(json);
 
-//required String id,
   @override
   final String userId;
   @override
@@ -262,20 +260,20 @@ abstract class _MalReports extends MalReports {
   factory _MalReports.fromJson(Map<String, dynamic> json) =
       _$_MalReports.fromJson;
 
-  @override //required String id,
-  String get userId => throw _privateConstructorUsedError;
   @override
-  String get date => throw _privateConstructorUsedError;
+  String get userId;
   @override
-  String get barangayHealthStation => throw _privateConstructorUsedError;
+  String get date;
   @override
-  String get ruralHEalthUnit => throw _privateConstructorUsedError;
+  String get barangayHealthStation;
   @override
-  String get activities => throw _privateConstructorUsedError;
+  String get ruralHEalthUnit;
   @override
-  String get findings => throw _privateConstructorUsedError;
+  String get activities;
   @override
-  String get conforme => throw _privateConstructorUsedError;
+  String get findings;
+  @override
+  String get conforme;
   @override
   @JsonKey(ignore: true)
   _$$_MalReportsCopyWith<_$_MalReports> get copyWith =>

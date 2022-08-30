@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_capstone_project/constants/enums/menu_action.dart';
 import 'package:my_capstone_project/constants/style.dart';
-import 'package:my_capstone_project/model/mal_reports.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
 import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
-import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
 import '../../view_model/repository/mal_reports_repository.dart';
 
 class ReportsList extends ConsumerStatefulWidget {
-  const ReportsList({Key? key}) : super(key: key);
+  final String reportType;
+  const ReportsList({super.key, this.reportType = ""});
 
   @override
   _ReportsCardviewState createState() => _ReportsCardviewState();
@@ -36,7 +35,10 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
           child: Column(
             children: [
               MyBackButton(),
-              Text('Monitoring Activity Log', style: textStyleHeadings),
+              Text(
+                widget.reportType,
+                style: textStyleHeadings,
+              ),
               SizedBox(
                 height: 20,
               ),
