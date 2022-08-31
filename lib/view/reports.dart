@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/coaching_and_monitoring.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/local_health_board_monitoring.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
-import 'package:my_capstone_project/view/reports/reports_list.dart';
+import 'package:my_capstone_project/view/reports/reports_lists/cm_reports_list.dart';
+import 'package:my_capstone_project/view/reports/reports_lists/mal_reports_list.dart';
 import 'package:my_capstone_project/view/widgets/report_menu_button.dart';
 import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
 
@@ -29,7 +30,7 @@ class Reports extends ConsumerWidget {
             child: MonitoringActivityLog(),
           ),
         if (reportsTransitionState.reportsTransitionId == 2)
-          const MaterialPage(
+          MaterialPage(
             child: CoachingAndMonitoring(),
           ),
         if (reportsTransitionState.reportsTransitionId == 3)
@@ -62,13 +63,11 @@ class Menu extends ConsumerWidget {
           ReportMenuButton(
               text: "Monitoring Activity Log",
               imageAsset: "assets/images/resources_logo.png",
-              pageRoute: ReportsList(
-                reportType: 'Monitoring Activity Log',
-              )),
+              pageRoute: MalReportsList()),
           ReportMenuButton(
             text: "Coaching and Monitoring \nReport",
             imageAsset: "assets/images/coaching_monitoring_logo.png",
-            pageRoute: CoachingAndMonitoring(),
+            pageRoute: CmReportsList(),
           ),
           ReportMenuButton(
             text: "Local Health Board \n Monitoring Report",

@@ -23,12 +23,13 @@ class ConfirmationPopUp {
     );
   }
 
-  AlertDialog deleteReport(context, title, text, ref, reportId) {
+  AlertDialog deleteReport(context, refMethod) {
     return AlertDialog(
       title: Text(
-        title,
+        'Confirm Delete',
       ),
-      content: Text(text),
+      content: Text(
+          "Are you sure you want to delete this report? This action can't be undone."),
       actions: [
         TextButton(
             onPressed: () {
@@ -39,7 +40,7 @@ class ConfirmationPopUp {
           onPressed: () {
             Navigator.of(context).pop();
             try {
-              ref.read(malReportsRepositoryProvider).deleteMalReport(reportId);
+              //ref.read(malReportsRepositoryProvider).deleteMalReport(reportId);
               final successSnackbar = SnackBar(
                 backgroundColor: green,
                 content: Text(

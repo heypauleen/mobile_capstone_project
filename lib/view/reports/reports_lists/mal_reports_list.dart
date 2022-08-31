@@ -6,23 +6,23 @@ import 'package:my_capstone_project/constants/style.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
 import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
+import 'package:my_capstone_project/view_model/repository/cm_reports_repository.dart';
+import 'package:my_capstone_project/view_model/repository/mal_reports_repository.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
-import '../../view_model/repository/mal_reports_repository.dart';
-
-class ReportsList extends ConsumerStatefulWidget {
-  final String reportType;
-  const ReportsList({super.key, this.reportType = ""});
+class MalReportsList extends ConsumerStatefulWidget {
+  const MalReportsList({super.key});
 
   @override
   _ReportsCardviewState createState() => _ReportsCardviewState();
 }
 
-class _ReportsCardviewState extends ConsumerState<ReportsList> {
+class _ReportsCardviewState extends ConsumerState<MalReportsList> {
   @override
   Widget build(BuildContext context) {
     final _auth = ref.watch(authenticationServicesProvider);
     final malreports = ref.watch(malReportsRepositoryProvider);
+
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
@@ -36,7 +36,7 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
             children: [
               MyBackButton(),
               Text(
-                widget.reportType,
+                'Monitoring Activity Log',
                 style: textStyleHeadings,
               ),
               SizedBox(
@@ -75,8 +75,6 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
                 stream: malreports.streamAllMALReports(
                     userId: _auth.getCurrentUserId()),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  //List<QueryDocumentSnapshot> _malReportsList;
-                  //MalReports(this._malReportsList);
                   if (!snapshot.hasData) {
                     return Center(child: CircularProgressIndicator());
                   }
@@ -111,53 +109,54 @@ class _ReportsCardviewState extends ConsumerState<ReportsList> {
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     trailing: PopupMenuButton(
-                                        icon: Icon(Icons.more_vert),
-                                        itemBuilder: (context) {
-                                          return const [
-                                            PopupMenuItem<MenuAction>(
-                                                value: MenuAction.view,
-                                                child: Text('View')),
-                                            PopupMenuItem<MenuAction>(
-                                                value: MenuAction.delete,
-                                                child: Text('Delete')),
-                                          ];
-                                        },
-                                        onSelected: (value) async {
-                                          switch (value) {
-                                            case MenuAction.delete:
-                                              showDialog<bool>(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return ConfirmationPopUp()
-                                                        .deleteReport(
-                                                      context,
-                                                      "Confirm Delete",
-                                                      "Are you sure you want to delete this report? This action can't be undone. ",
-                                                      ref,
+                                      icon: Icon(Icons.more_vert),
+                                      itemBuilder: (context) {
+                                        return const [
+                                          PopupMenuItem<MenuAction>(
+                                              value: MenuAction.view,
+                                              child: Text('View')),
+                                          PopupMenuItem<MenuAction>(
+                                              value: MenuAction.delete,
+                                              child: Text('Delete')),
+                                        ];
+                                      },
+                                      onSelected: (value) async {
+                                        switch (value) {
+                                          case MenuAction.delete:
+                                            showDialog<bool>(
+                                                context: context,
+                                                builder: (context) {
+                                                  return ConfirmationPopUp()
+                                                      .deleteReport(
+                                                          context,
+                                                          ref
+                                                              .read(
+                                                                  malReportsRepositoryProvider)
+                                                              .deleteMalReport(
+                                                                  _malReportsList[
+                                                                          index]
+                                                                      .id));
+                                                });
+                                            break;
+                                          case MenuAction.view:
+                                            Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    MonitoringActivityLog(
+                                                  reportId:
                                                       _malReportsList[index].id,
-                                                    );
-                                                  });
-                                              break;
-                                            case MenuAction.view:
-                                              Navigator.of(context).push(
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MonitoringActivityLog(
-                                                    reportId:
-                                                        _malReportsList[index]
-                                                            .id,
-                                                    toUpdate: true,
-                                                    report:
-                                                        _malReportsList[index]
-                                                            .data(),
-                                                  ),
+                                                  toUpdate: true,
+                                                  report: _malReportsList[index]
+                                                      .data(),
                                                 ),
-                                              );
-                                              break;
-                                            default:
-                                              break;
-                                          }
-                                        }),
+                                              ),
+                                            );
+                                            break;
+                                          default:
+                                            break;
+                                        }
+                                      },
+                                    ),
                                     onTap: () {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(

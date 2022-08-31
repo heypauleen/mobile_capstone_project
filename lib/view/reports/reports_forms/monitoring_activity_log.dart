@@ -274,15 +274,14 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                               findings: _findings.text,
                               conforme: _conforme.text);
                           try {
-                            if (widget.toUpdate) {
-                              ref
-                                  .read(malReportsRepositoryProvider)
-                                  .editMalReport(malReports, widget.reportId!);
-                            } else {
-                              ref
-                                  .read(malReportsRepositoryProvider)
-                                  .addMalReport(malReports);
-                            }
+                            widget.toUpdate
+                                ? ref
+                                    .read(malReportsRepositoryProvider)
+                                    .editMalReport(malReports, widget.reportId!)
+                                : ref
+                                    .read(malReportsRepositoryProvider)
+                                    .addMalReport(malReports);
+
                             final successSnackbar = SnackBar(
                               backgroundColor: green,
                               content: Text(
@@ -339,10 +338,9 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                               builder: (context) {
                                 return ConfirmationPopUp().deleteReport(
                                     context,
-                                    "Confirm Delete",
-                                    "Are you sure you want to delete this report? This action can't be undone. ",
-                                    ref,
-                                    widget.reportId);
+                                    ref
+                                        .read(malReportsRepositoryProvider)
+                                        .deleteMalReport(widget.reportId!));
                               }).then(
                             (value) => Navigator.pop(context),
                           );

@@ -30,4 +30,28 @@ class CmReportsRepository {
       throw GenericAuthException(message: e.message);
     }
   }
+
+  Future<bool> editCMReport(CmReports cmReport, String cmReportId) async {
+    try {
+      await read(firebaseFirestoreProvider)
+          .collection('cm_reports')
+          .doc(cmReportId)
+          .update(cmReport.toJson());
+      return true;
+    } on FirebaseAuthException catch (e) {
+      throw GenericAuthException(message: e.message);
+    }
+  }
+
+  Future<bool> deleteMalReport(String cmReportId) async {
+    try {
+      await read(firebaseFirestoreProvider)
+          .collection('cm_reports')
+          .doc(cmReportId)
+          .delete();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      throw GenericAuthException(message: e.message);
+    }
+  }
 }

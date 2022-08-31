@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:my_capstone_project/constants/style.dart';
 import 'package:my_capstone_project/model/cm_reports.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
+import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
 import 'package:my_capstone_project/view/widgets/multiline_textformfield_decoration.dart';
 import 'package:my_capstone_project/view/widgets/textfield_title.dart';
 import 'package:my_capstone_project/view/widgets/textformfield_decoration.dart';
@@ -11,13 +12,19 @@ import 'package:my_capstone_project/view_model/repository/cm_reports_repository.
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
 class CoachingAndMonitoring extends ConsumerStatefulWidget {
-  const CoachingAndMonitoring({Key? key}) : super(key: key);
+  String? reportId;
+  bool toUpdate;
+  dynamic report;
+  CoachingAndMonitoring(
+      {super.key, this.reportId, this.toUpdate = false, this.report});
 
   @override
   _MonitoringActivityLogState createState() => _MonitoringActivityLogState();
 }
 
 class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
+  bool enableTextFields = true;
+  bool showSaveButton = true;
   late final TextEditingController _date,
       _area,
       _typeOfCoaching,
@@ -39,6 +46,21 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
     _targetDate = TextEditingController();
     _conforme = TextEditingController();
     _status = TextEditingController();
+
+    if (widget.toUpdate) {
+      _date.text = widget.report['date'];
+      _area.text = widget.report['areaMonitored'];
+      _typeOfCoaching.text = widget.report['typeOfCoaching'];
+      _coacheeName.text = widget.report['nameOfCoachee'];
+      _agenda.text = widget.report['agenda'];
+      _agreement.text = widget.report['agreement'];
+      _targetDate.text = widget.report['dateOfImplementation'];
+      _conforme.text = widget.report['conforme'];
+      _status.text = widget.report['status'];
+
+      enableTextFields = false;
+      showSaveButton = false;
+    }
 
     super.initState();
   }
@@ -90,7 +112,7 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: TextFormField(
                     controller: _date,
-                    //enabled: enableTextFields,
+                    enabled: enableTextFields,
                     decoration: myTextFieldDecoration(
                       icon: Icon(
                         Icons.event_note,
@@ -119,6 +141,7 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: TextFormField(
+                    enabled: enableTextFields,
                     controller: _area,
                     decoration: myTextFieldDecoration(),
                   ),
@@ -129,6 +152,7 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: TextFormField(
+                    enabled: enableTextFields,
                     controller: _typeOfCoaching,
                     decoration: myTextFieldDecoration(),
                   ),
@@ -139,6 +163,7 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: TextFormField(
+                    enabled: enableTextFields,
                     controller: _coacheeName,
                     decoration: myTextFieldDecoration(),
                   ),
@@ -149,6 +174,8 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: TextFormField(
+                    enabled: enableTextFields,
+                    controller: _agenda,
                     minLines: 3,
                     maxLines: 5, // allow user to enter 5 line in textfield
                     keyboardType: TextInputType
@@ -160,6 +187,7 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: TextFormField(
+                    enabled: enableTextFields,
                     controller: _agreement,
                     minLines: 3,
                     maxLines: 5, // allow user to enter 5 line in textfield
@@ -173,6 +201,7 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: TextFormField(
+                    enabled: enableTextFields,
                     controller: _targetDate,
                     decoration: myTextFieldDecoration(
                       icon: Icon(
@@ -202,6 +231,7 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: TextFormField(
+                    enabled: enableTextFields,
                     controller: _conforme,
                     decoration: myTextFieldDecoration(),
                   ),
@@ -212,58 +242,133 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: TextFormField(
+                    enabled: enableTextFields,
                     controller: _status,
                     decoration: myTextFieldDecoration(),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(fontSize: 14),
-                      primary: Color(0xff4BBE83),
-                      fixedSize: Size(0, 50),
+                Visibility(
+                  visible: !enableTextFields,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 10,
                     ),
-                    onPressed: () {
-                      final cmReports = CmReports(
-                          userId: _auth.getCurrentUserId(),
-                          date: _date.text,
-                          areaMonitored: _area.text,
-                          typeOfCoaching: _typeOfCoaching.text,
-                          nameOfCoachee: _coacheeName.text,
-                          agenda: _agenda.text,
-                          agreement: _agreement.text,
-                          dateOfImplementation: _targetDate.text,
-                          conforme: _conforme.text,
-                          status: _status.text);
-                      try {
-                        ref
-                            .read(cmReportsRepositoryProvider)
-                            .addCMReports(cmReports);
-                        final successSnackbar = SnackBar(
-                          backgroundColor: green,
-                          content: Text(
-                            'Added Successfully!',
-                          ),
-                          duration: Duration(seconds: 1),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 14),
+                          primary: Colors.white,
+                          fixedSize: Size(0, 50),
+                          side: BorderSide(color: green)),
+                      onPressed: () {
+                        enableTextFields = true;
+                        showSaveButton = true;
+                        setState(() {});
+                      },
+                      child: Text('CLICK HERE TO EDIT THIS REPORT',
+                          style: TextStyle(
+                              color: green, fontWeight: FontWeight.bold)),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: showSaveButton,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 16, right: 16, top: 10),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 14),
+                        primary: Color(0xff4BBE83),
+                        fixedSize: Size(0, 50),
+                      ),
+                      onPressed: () {
+                        final cmReports = CmReports(
+                            userId: _auth.getCurrentUserId(),
+                            date: _date.text,
+                            areaMonitored: _area.text,
+                            typeOfCoaching: _typeOfCoaching.text,
+                            nameOfCoachee: _coacheeName.text,
+                            agenda: _agenda.text,
+                            agreement: _agreement.text,
+                            dateOfImplementation: _targetDate.text,
+                            conforme: _conforme.text,
+                            status: _status.text);
+                        try {
+                          widget.toUpdate
+                              ? ref
+                                  .read(cmReportsRepositoryProvider)
+                                  .editCMReport(cmReports, widget.reportId!)
+                              : ref
+                                  .read(cmReportsRepositoryProvider)
+                                  .addCMReports(cmReports);
+                          final successSnackbar = SnackBar(
+                            backgroundColor: green,
+                            content: Text(
+                              widget.toUpdate
+                                  ? 'Edited Successfully'
+                                  : 'Added Successfully!',
+                            ),
+                            duration: Duration(seconds: 1),
+                          );
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(successSnackbar)
+                              .closed
+                              .then((value) => widget.toUpdate
+                                  ? setState(() {
+                                      enableTextFields = false;
+                                      showSaveButton = false;
+                                    })
+                                  : Navigator.pop(context));
+                        } catch (e) {
+                          final failureSnackbar = SnackBar(
+                            content: Text('Error : $e'),
+                            backgroundColor: red,
+                          );
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(failureSnackbar);
+                        }
+                      },
+                      child: Text(
+                        'SAVE',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                Visibility(
+                  visible: !enableTextFields,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 16,
+                      right: 16,
+                      top: 10,
+                    ),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: const TextStyle(fontSize: 14),
+                        primary: red,
+                        fixedSize: Size(0, 50),
+                      ),
+                      onPressed: () {
+                        showDialog<bool>(
+                            context: context,
+                            builder: (context) {
+                              return ConfirmationPopUp().deleteReport(
+                                  context,
+                                  ref
+                                      .read(cmReportsRepositoryProvider)
+                                      .deleteMalReport(widget.reportId!));
+                            }).then(
+                          (value) => Navigator.pop(context),
                         );
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(successSnackbar)
-                            .closed
-                            .then((value) => Navigator.pop(context));
-                      } catch (e) {
-                        final failureSnackbar = SnackBar(
-                          content: Text('Error : $e'),
-                          backgroundColor: red,
-                        );
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(failureSnackbar);
-                      }
-                    },
-                    child: Text(
-                      'DONE',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                      },
+                      child: Text(
+                        'DELETE THIS REPORT',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
