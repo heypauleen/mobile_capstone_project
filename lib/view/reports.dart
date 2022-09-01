@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_capstone_project/model/lhbm_reports.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/coaching_and_monitoring.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/local_health_board_monitoring.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
 import 'package:my_capstone_project/view/reports/reports_lists/cm_reports_list.dart';
+import 'package:my_capstone_project/view/reports/reports_lists/lhbm_reports_list.dart';
 import 'package:my_capstone_project/view/reports/reports_lists/mal_reports_list.dart';
 import 'package:my_capstone_project/view/widgets/report_menu_button.dart';
 import 'package:my_capstone_project/view_model/reports_transition_notifier.dart';
@@ -34,7 +36,7 @@ class Reports extends ConsumerWidget {
             child: CoachingAndMonitoring(),
           ),
         if (reportsTransitionState.reportsTransitionId == 3)
-          const MaterialPage(
+          MaterialPage(
             child: LocalHealthBoardMonitoring(),
           ),
       ],
@@ -70,9 +72,9 @@ class Menu extends ConsumerWidget {
             pageRoute: CmReportsList(),
           ),
           ReportMenuButton(
-            text: "Local Health Board \n Monitoring Report",
-            imageAsset: "assets/images/local_health_logo.png",
-          ),
+              text: "Local Health Board \n Monitoring Report",
+              imageAsset: "assets/images/local_health_logo.png",
+              pageRoute: LHBMReportsList()),
 
           ///onPressed: () =>  reportsTransitionNotifier.pushLHBReportsPage(),
         ],

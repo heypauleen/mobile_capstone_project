@@ -14,10 +14,10 @@ class CmReportsList extends ConsumerStatefulWidget {
   const CmReportsList({super.key});
 
   @override
-  _ReportsCardviewState createState() => _ReportsCardviewState();
+  CmReportsListState createState() => CmReportsListState();
 }
 
-class _ReportsCardviewState extends ConsumerState<CmReportsList> {
+class CmReportsListState extends ConsumerState<CmReportsList> {
   @override
   Widget build(BuildContext context) {
     final _auth = ref.watch(authenticationServicesProvider);

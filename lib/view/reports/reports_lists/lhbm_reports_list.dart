@@ -3,25 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_capstone_project/constants/enums/menu_action.dart';
 import 'package:my_capstone_project/constants/style.dart';
-import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
+import 'package:my_capstone_project/view/reports/reports_forms/coaching_and_monitoring.dart';
+import 'package:my_capstone_project/view/reports/reports_forms/local_health_board_monitoring.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
 import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
-import 'package:my_capstone_project/view_model/repository/cm_reports_repository.dart';
-import 'package:my_capstone_project/view_model/repository/mal_reports_repository.dart';
+import 'package:my_capstone_project/view_model/repository/lhbm_reports_repository.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
-class MalReportsList extends ConsumerStatefulWidget {
-  const MalReportsList({super.key});
+class LHBMReportsList extends ConsumerStatefulWidget {
+  const LHBMReportsList({super.key});
 
   @override
-  MalReportsListState createState() => MalReportsListState();
+  LHBMReportsListState createState() => LHBMReportsListState();
 }
 
-class MalReportsListState extends ConsumerState<MalReportsList> {
+class LHBMReportsListState extends ConsumerState<LHBMReportsList> {
   @override
   Widget build(BuildContext context) {
     final _auth = ref.watch(authenticationServicesProvider);
-    final malreports = ref.watch(malReportsRepositoryProvider);
+    final lhbmReports = ref.watch(lhbmReportsRepositoryProvider);
 
     return Scaffold(
       extendBody: true,
@@ -35,8 +35,11 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
           child: Column(
             children: [
               MyBackButton(),
+              SizedBox(
+                height: 10,
+              ),
               Text(
-                'Monitoring Activity Log',
+                "Local Health Board Monitoring Report",
                 style: textStyleHeadings,
               ),
               SizedBox(
@@ -72,7 +75,7 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                 ),
               ),
               StreamBuilder(
-                stream: malreports.streamAllMALReports(
+                stream: lhbmReports.streamAllLHBMReports(
                     userId: _auth.getCurrentUserId()),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (!snapshot.hasData) {
@@ -83,14 +86,14 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                         child: Text(
                             'An error has occured while fetching the data'));
                   } else {
-                    List<QueryDocumentSnapshot> _malReportsList =
+                    List<QueryDocumentSnapshot> _reportsList =
                         snapshot.data.docs;
-                    return _malReportsList.length != 0
+                    return _reportsList.length != 0
                         ? ListView.builder(
                             shrinkWrap: true,
-                            itemCount: _malReportsList.length,
+                            itemCount: _reportsList.length,
                             itemBuilder: (context, index) {
-                              final _currentReport = _malReportsList[index];
+                              final _currentReport = _reportsList[index];
                               return Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 0, 15, 0),
@@ -105,7 +108,7 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                                     dense: false,
                                     title: Text(_currentReport['date']),
                                     subtitle: Text(
-                                      _currentReport['activities'],
+                                      _currentReport['agenda'],
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     trailing: PopupMenuButton(
@@ -131,9 +134,9 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                                                           context,
                                                           ref
                                                               .read(
-                                                                  malReportsRepositoryProvider)
-                                                              .deleteMalReport(
-                                                                  _malReportsList[
+                                                                  lhbmReportsRepositoryProvider)
+                                                              .deleteLHBMReport(
+                                                                  _reportsList[
                                                                           index]
                                                                       .id));
                                                 });
@@ -142,11 +145,11 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                                             Navigator.of(context).push(
                                               MaterialPageRoute(
                                                 builder: (context) =>
-                                                    MonitoringActivityLog(
+                                                    LocalHealthBoardMonitoring(
                                                   reportId:
-                                                      _malReportsList[index].id,
+                                                      _reportsList[index].id,
                                                   toUpdate: true,
-                                                  report: _malReportsList[index]
+                                                  report: _reportsList[index]
                                                       .data(),
                                                 ),
                                               ),
@@ -161,11 +164,10 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              MonitoringActivityLog(
-                                            reportId: _malReportsList[index].id,
+                                              LocalHealthBoardMonitoring(
+                                            reportId: _reportsList[index].id,
                                             toUpdate: true,
-                                            report:
-                                                _malReportsList[index].data(),
+                                            report: _reportsList[index].data(),
                                           ),
                                         ),
                                       );
@@ -190,7 +192,7 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => MonitoringActivityLog(
+                            builder: (context) => LocalHealthBoardMonitoring(
                               toUpdate: false,
                             ),
                           ),

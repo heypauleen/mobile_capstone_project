@@ -20,7 +20,7 @@ Shader linearGradient = LinearGradient(
 ));
 
 TextStyle textStyleHeadings = TextStyle(
-    fontSize: 25,
+    fontSize: 20,
     fontFamily: 'Product Sans',
     fontWeight: FontWeight.bold,
     foreground: Paint()..shader = linearGradient);
