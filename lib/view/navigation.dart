@@ -47,7 +47,7 @@ class Navigation extends ConsumerWidget {
             enableFloatingNavBar: true,
             enablePaddingAnimation: true,
             currentIndex: _buttonNaviBarState.index,
-            marginR: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            marginR: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
             unselectedItemColor: lightGray,
             boxShadow: <BoxShadow>[
               BoxShadow(
@@ -66,7 +66,7 @@ class Navigation extends ConsumerWidget {
                 icon: Icon(Icons.calendar_month),
               ),
               DotNavigationBarItem(
-                icon: Icon(Icons.archive),
+                icon: Icon(Icons.feed),
               ),
               DotNavigationBarItem(
                 icon: Icon(Icons.account_circle),

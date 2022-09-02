@@ -8,7 +8,7 @@ Color gray = Color(0xff5A5A5A);
 Color lightGray = Color.fromARGB(255, 135, 134, 134);
 Color lightestGray = Color(0xffCCCCCC);
 Color red = Color.fromARGB(255, 254, 89, 103);
-Color yellow = Color.fromARGB(255, 236, 232, 106);
+Color yellow = Color(0xffFFED99);
 
 Shader linearGradient = LinearGradient(
   colors: <Color>[Color(0xff006C35), Color(0xff4BBE83)],
