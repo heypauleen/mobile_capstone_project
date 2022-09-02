@@ -15,63 +15,63 @@ class MyCalendar extends StatelessWidget {
     String headerYear = DateFormat('yyyy').format(focusedDay);
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
-          child: Container(
-            height: 45,
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(60)),
-                boxShadow: [
-                  BoxShadow(
-                      color: Color.fromARGB(92, 158, 158, 158),
-                      offset: Offset(-5, 0),
-                      blurRadius: 10.0)
-                ]),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 3.0),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                        backgroundColor: yellow, shape: CircleBorder()),
-                    child: Icon(
-                      Icons.keyboard_arrow_left,
-                      color: green,
-                    ),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      headerMonth.toUpperCase(),
-                      style: TextStyle(fontSize: 15, color: green),
-                    ),
-                    const SizedBox(width: 7),
-                    Text(
-                      headerYear,
-                      style: TextStyle(fontSize: 15),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 3.0),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                        backgroundColor: yellow, shape: CircleBorder()),
-                    child: Icon(
-                      Icons.keyboard_arrow_right,
-                      color: green,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.fromLTRB(15, 5, 15, 5),
+        //   child: Container(
+        //     height: 45,
+        //     decoration: BoxDecoration(
+        //         color: Colors.white,
+        //         borderRadius: BorderRadius.all(Radius.circular(60)),
+        //         boxShadow: [
+        //           BoxShadow(
+        //               color: Color.fromARGB(92, 158, 158, 158),
+        //               offset: Offset(-5, 0),
+        //               blurRadius: 10.0)
+        //         ]),
+        //     child: Row(
+        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       children: [
+        //         Padding(
+        //           padding: const EdgeInsets.only(left: 3.0),
+        //           child: TextButton(
+        //             onPressed: () {},
+        //             style: TextButton.styleFrom(
+        //                 backgroundColor: yellow, shape: CircleBorder()),
+        //             child: Icon(
+        //               Icons.keyboard_arrow_left,
+        //               color: green,
+        //             ),
+        //           ),
+        //         ),
+        //         Row(
+        //           children: [
+        //             Text(
+        //               headerMonth.toUpperCase(),
+        //               style: TextStyle(fontSize: 15, color: green),
+        //             ),
+        //             const SizedBox(width: 7),
+        //             Text(
+        //               headerYear,
+        //               style: TextStyle(fontSize: 15),
+        //             ),
+        //           ],
+        //         ),
+        //         Padding(
+        //           padding: const EdgeInsets.only(left: 3.0),
+        //           child: TextButton(
+        //             onPressed: () {},
+        //             style: TextButton.styleFrom(
+        //                 backgroundColor: yellow, shape: CircleBorder()),
+        //             child: Icon(
+        //               Icons.keyboard_arrow_right,
+        //               color: green,
+        //             ),
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
         Padding(
           padding: const EdgeInsets.fromLTRB(15, 5, 15, 3),
           child: Container(
@@ -93,37 +93,42 @@ class MyCalendar extends StatelessWidget {
                   weekendStyle:
                       TextStyle(fontWeight: FontWeight.bold, color: green)),
               daysOfWeekHeight: 35,
-              // headerStyle: HeaderStyle(
-              //   titleTextStyle: TextStyle(
-              //     fontSize: 15,
-              //   ),
-              //   headerMargin: EdgeInsets.zero,
-              //   titleTextFormatter: (date, locale) =>
-              //       DateFormat.yMMM(locale).format(date).toUpperCase(),
-              //   headerPadding: EdgeInsets.zero,
-              //   formatButtonPadding: EdgeInsets.zero,
-              //   leftChevronIcon: TextButton(
-              //     onPressed: null,
-              //     style: TextButton.styleFrom(
-              //         backgroundColor: yellow, shape: CircleBorder()),
-              //     child: Icon(
-              //       Icons.keyboard_arrow_left,
-              //       color: green,
-              //     ),
-              //   ),
-              //   rightChevronIcon: TextButton(
-              //     onPressed: null,
-              //     style: TextButton.styleFrom(
-              //         backgroundColor: yellow, shape: CircleBorder()),
-              //     child: Icon(
-              //       Icons.keyboard_arrow_right,
-              //       color: green,
-              //     ),
-              //   ),
-              //   formatButtonVisible: false,
-              //   titleCentered: true,
-              // ),
-              headerVisible: false,
+              headerStyle: HeaderStyle(
+                titleTextStyle: TextStyle(
+                    fontSize: 17, fontWeight: FontWeight.bold, color: gray),
+                headerMargin: EdgeInsets.zero,
+                titleTextFormatter: (date, locale) =>
+                    DateFormat.yMMMM(locale).format(date).toUpperCase(),
+                headerPadding: EdgeInsets.zero,
+                formatButtonPadding: EdgeInsets.zero,
+                leftChevronIcon: Container(
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: yellow,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.keyboard_arrow_left,
+                    color: green,
+                  ),
+                ),
+                rightChevronIcon: Container(
+                  width: 35,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: yellow,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    Icons.keyboard_arrow_right,
+                    color: green,
+                  ),
+                ),
+                formatButtonVisible: false,
+                titleCentered: true,
+              ),
+              headerVisible: true,
               calendarFormat: CalendarFormat.month,
               rowHeight: 35,
               firstDay: DateTime.utc(2010, 10, 16),
