@@ -3,7 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:my_capstone_project/constants/fonts.dart';
 import 'package:my_capstone_project/constants/style.dart';
 import 'package:my_capstone_project/view/widgets/calendar.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:my_capstone_project/view/widgets/gradient_text.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class Home extends StatelessWidget {
                         (count) => Duration(seconds: count)),
                     builder: (context, snapshot) {
                       return Text(
-                        DateFormat('EEEE, MMMM d, y, hh:mm aaa')
+                        DateFormat('MMMM d, y (EEE) hh:mm aaa')
                             .format(DateTime.now()),
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -207,14 +208,10 @@ class Home extends StatelessWidget {
             //FourthRow
             padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
             child: Center(
-              child: Text(
-                "ZSP PDOHO UPDATES",
-                style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                    foreground: Paint()..shader = linearGradient),
-              ),
-            ),
+                child: MyGradientHeaderText(
+              text: "ZSP PDOHO UPDATES",
+              fontSize: 20,
+            )),
           ),
           MyCalendar(),
         ],

@@ -6,6 +6,7 @@ import 'package:my_capstone_project/constants/style.dart';
 import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
 import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
+import 'package:my_capstone_project/view/widgets/gradient_text.dart';
 import 'package:my_capstone_project/view_model/repository/cm_reports_repository.dart';
 import 'package:my_capstone_project/view_model/repository/mal_reports_repository.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
@@ -35,9 +36,9 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
           child: Column(
             children: [
               MyBackButton(),
-              Text(
-                'Monitoring Activity Log',
-                style: textStyleHeadings,
+              MyGradientHeaderText(
+                text: 'Monitoring Activity Log',
+                fontSize: 20,
               ),
               SizedBox(
                 height: 20,
@@ -48,7 +49,7 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   elevation: 5.0,
-                  shadowColor: lightGray,
+                  shadowColor: shadowGray,
                   child: TextFormField(
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -96,6 +97,7 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                                     const EdgeInsets.fromLTRB(15, 0, 15, 0),
                                 child: Card(
                                   elevation: 5,
+                                  shadowColor: shadowGray,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
                                       Radius.circular(8),
@@ -124,19 +126,20 @@ class MalReportsListState extends ConsumerState<MalReportsList> {
                                         switch (value) {
                                           case MenuAction.delete:
                                             showDialog<bool>(
-                                                context: context,
-                                                builder: (context) {
-                                                  return ConfirmationPopUp()
-                                                      .deleteReport(
-                                                          context,
-                                                          ref
-                                                              .read(
-                                                                  malReportsRepositoryProvider)
-                                                              .deleteMalReport(
-                                                                  _malReportsList[
-                                                                          index]
-                                                                      .id));
-                                                });
+                                              context: context,
+                                              builder: (context) {
+                                                return ConfirmationPopUp()
+                                                    .deleteReport(
+                                                        context,
+                                                        ref
+                                                            .read(
+                                                                malReportsRepositoryProvider)
+                                                            .deleteMalReport(
+                                                                _malReportsList[
+                                                                        index]
+                                                                    .id));
+                                              },
+                                            );
                                             break;
                                           case MenuAction.view:
                                             Navigator.of(context).push(

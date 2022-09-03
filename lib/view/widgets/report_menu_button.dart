@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_capstone_project/constants/style.dart' as gradient;
+import 'package:my_capstone_project/view/widgets/gradient_text.dart';
+import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 class ReportMenuButton extends StatelessWidget {
   ReportMenuButton(
@@ -33,16 +35,7 @@ class ReportMenuButton extends StatelessWidget {
               ),
               Expanded(
                 child: Center(
-                  child: Text(
-                    text,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontSize: 25,
-                        fontFamily: 'Product Sans',
-                        //letterSpacing: .0,
-                        fontWeight: FontWeight.bold,
-                        foreground: Paint()..shader = gradient.linearGradient),
-                  ),
+                  child: MyGradientHeaderText(text: text, fontSize: 25),
                 ),
               ),
             ],

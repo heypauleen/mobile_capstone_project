@@ -67,7 +67,7 @@ class Menu extends ConsumerWidget {
               imageAsset: "assets/images/resources_logo.png",
               pageRoute: MalReportsList()),
           ReportMenuButton(
-            text: "Coaching and Monitoring \nReport",
+            text: "Coaching and Monitoring Report",
             imageAsset: "assets/images/coaching_monitoring_logo.png",
             pageRoute: CmReportsList(),
           ),

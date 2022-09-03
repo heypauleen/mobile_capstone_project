@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:my_capstone_project/constants/style.dart';
+import 'package:my_capstone_project/view/widgets/gradient_text.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -20,8 +21,8 @@ class SplashScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.fromLTRB(0, 200, 0, 0),
-                  width: 150,
-                  height: 150,
+                width: 150,
+                height: 150,
                 //margin: EdgeInsets.all(100),
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -31,16 +32,13 @@ class SplashScreen extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-              Text(
-                'HEALTHBYTE: ',
-                 style: TextStyle(fontSize:30, fontFamily: 'Product Sans', fontWeight: FontWeight.bold,
-                        foreground: Paint()..shader = linearGradient),
+              MyGradientHeaderText(
+                text: "HEALTHBYTE: ",
+                fontSize: 30,
               ),
-              Text(
-                'Application for Zamboanga Sibugay PDOHO',
-                textAlign: TextAlign.center,
-                 style: TextStyle(fontSize:20, fontFamily: 'Product Sans', fontWeight: FontWeight.bold,
-                        foreground: Paint()..shader = linearGradient),
+              MyGradientHeaderText(
+                text: "Application for Zamboanga Sibugay PDOHO ",
+                fontSize: 30,
               ),
               SizedBox(
                 height: 50,

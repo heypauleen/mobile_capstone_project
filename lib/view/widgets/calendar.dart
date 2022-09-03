@@ -73,7 +73,7 @@ class MyCalendar extends StatelessWidget {
         //   ),
         // ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(15, 5, 15, 3),
+          padding: const EdgeInsets.fromLTRB(15, 10, 15, 3),
           child: Container(
             decoration: BoxDecoration(
                 color: Colors.white,

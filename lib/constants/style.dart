@@ -5,25 +5,11 @@ Color borderColor = Color(0xffA8CDBA);
 Color lightGreen = Color.fromARGB(255, 141, 236, 187);
 Color lightGreen2 = Color.fromARGB(255, 43, 124, 82);
 Color gray = Color(0xff5A5A5A);
+Color shadowGray = Color.fromARGB(93, 226, 226, 226);
 Color lightGray = Color.fromARGB(255, 135, 134, 134);
 Color lightestGray = Color(0xffCCCCCC);
 Color red = Color.fromARGB(255, 254, 89, 103);
 Color yellow = Color(0xffFFED99);
-
-Shader linearGradient = LinearGradient(
-  colors: <Color>[Color(0xff006C35), Color(0xff4BBE83)],
-  begin: Alignment.topCenter,
-  end: Alignment.bottomCenter,
-).createShader(Rect.fromCircle(
-  center: Offset(12, -200),
-  radius: 12 / 3,
-));
-
-TextStyle textStyleHeadings = TextStyle(
-    fontSize: 20,
-    fontFamily: 'Product Sans',
-    fontWeight: FontWeight.bold,
-    foreground: Paint()..shader = linearGradient);
 
 const MaterialColor deepGreen = MaterialColor(
   _deepGreenPrimaryValue,

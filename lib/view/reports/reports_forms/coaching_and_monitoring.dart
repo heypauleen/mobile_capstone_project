@@ -5,6 +5,7 @@ import 'package:my_capstone_project/constants/style.dart';
 import 'package:my_capstone_project/model/cm_reports.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
 import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
+import 'package:my_capstone_project/view/widgets/gradient_text.dart';
 import 'package:my_capstone_project/view/widgets/multiline_textformfield_decoration.dart';
 import 'package:my_capstone_project/view/widgets/textfield_title.dart';
 import 'package:my_capstone_project/view/widgets/textformfield_decoration.dart';
@@ -96,14 +97,9 @@ class _MonitoringActivityLogState extends ConsumerState<CoachingAndMonitoring> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 MyBackButton(),
-                Text(
-                  "Coaching and Monitoring Report",
-                  style: TextStyle(
-                      fontSize: 24,
-                      fontFamily: 'Product Sans',
-                      fontWeight: FontWeight.bold,
-                      foreground: Paint()..shader = linearGradient),
-                  textAlign: TextAlign.center,
+                MyGradientHeaderText(
+                  text: "Coaching and Monitoring Report",
+                  fontSize: 22,
                 ),
                 MyTextFieldTitle(
                   text: 'Date',

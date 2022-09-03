@@ -7,6 +7,7 @@ import 'package:my_capstone_project/view/reports/reports_forms/coaching_and_moni
 import 'package:my_capstone_project/view/reports/reports_forms/monitoring_activity_log.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
 import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
+import 'package:my_capstone_project/view/widgets/gradient_text.dart';
 import 'package:my_capstone_project/view_model/repository/cm_reports_repository.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
@@ -35,9 +36,9 @@ class CmReportsListState extends ConsumerState<CmReportsList> {
           child: Column(
             children: [
               MyBackButton(),
-              Text(
-                "Coaching & Monitoring Activity",
-                style: textStyleHeadings,
+              MyGradientHeaderText(
+                text: "Coaching & Monitoring Activity",
+                fontSize: 20,
               ),
               SizedBox(
                 height: 20,
@@ -48,7 +49,7 @@ class CmReportsListState extends ConsumerState<CmReportsList> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   elevation: 5.0,
-                  shadowColor: lightGray,
+                  shadowColor: shadowGray,
                   child: TextFormField(
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -95,6 +96,7 @@ class CmReportsListState extends ConsumerState<CmReportsList> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 0, 15, 0),
                                 child: Card(
+                                  shadowColor: shadowGray,
                                   elevation: 5,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(

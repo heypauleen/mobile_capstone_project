@@ -7,6 +7,7 @@ import 'package:my_capstone_project/view/reports/reports_forms/coaching_and_moni
 import 'package:my_capstone_project/view/reports/reports_forms/local_health_board_monitoring.dart';
 import 'package:my_capstone_project/view/widgets/back_button.dart';
 import 'package:my_capstone_project/view/widgets/confirmation_modal.dart';
+import 'package:my_capstone_project/view/widgets/gradient_text.dart';
 import 'package:my_capstone_project/view_model/repository/lhbm_reports_repository.dart';
 import 'package:my_capstone_project/view_model/services/auth_services.dart';
 
@@ -38,9 +39,9 @@ class LHBMReportsListState extends ConsumerState<LHBMReportsList> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                "Local Health Board Monitoring Report",
-                style: textStyleHeadings,
+              MyGradientHeaderText(
+                text: "Local Health Board Monitoring Report",
+                fontSize: 20,
               ),
               SizedBox(
                 height: 20,
@@ -51,7 +52,7 @@ class LHBMReportsListState extends ConsumerState<LHBMReportsList> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8)),
                   elevation: 5.0,
-                  shadowColor: lightGray,
+                  shadowColor: shadowGray,
                   child: TextFormField(
                     decoration: InputDecoration(
                       border: InputBorder.none,
@@ -98,6 +99,7 @@ class LHBMReportsListState extends ConsumerState<LHBMReportsList> {
                                 padding:
                                     const EdgeInsets.fromLTRB(15, 0, 15, 0),
                                 child: Card(
+                                  shadowColor: shadowGray,
                                   elevation: 5,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.all(
