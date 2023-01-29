@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_capstone_project/constants/style.dart';
 
-InputDecoration myTextFieldDecoration({String labelText = "", Icon? icon}) {
+InputDecoration myTextFieldDecoration({String hintText = "", Icon? icon}) {
   return InputDecoration(
     focusColor: green,
     fillColor: Colors.white,
@@ -20,7 +20,7 @@ InputDecoration myTextFieldDecoration({String labelText = "", Icon? icon}) {
       borderRadius: BorderRadius.circular(10.0),
     ),
     labelStyle: TextStyle(color: green),
-    labelText: labelText,
+    labelText: hintText,
     contentPadding: EdgeInsets.symmetric(horizontal: 15),
   );
 }

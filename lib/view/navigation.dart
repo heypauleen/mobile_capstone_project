@@ -39,7 +39,7 @@ class Navigation extends ConsumerWidget {
             case 2:
               return const Reports();
             case 3:
-              return const User_Settings();
+              return const UserSettings();
           }
         }(),
         bottomNavigationBar: DotNavigationBar(
@@ -47,7 +47,7 @@ class Navigation extends ConsumerWidget {
             enableFloatingNavBar: true,
             enablePaddingAnimation: true,
             currentIndex: _buttonNaviBarState.index,
-            marginR: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+            marginR: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             unselectedItemColor: lightGray,
             boxShadow: <BoxShadow>[
               BoxShadow(

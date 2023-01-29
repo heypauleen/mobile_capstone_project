@@ -129,7 +129,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                         controller: _bhs,
                         enabled: enableTextFields,
                         decoration: myTextFieldDecoration(
-                            labelText: "Barangay Health Station")),
+                            hintText: "Barangay Health Station")),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
@@ -137,7 +137,7 @@ class _MonitoringActivityLogState extends ConsumerState<MonitoringActivityLog> {
                         controller: _rhu,
                         enabled: enableTextFields,
                         decoration: myTextFieldDecoration(
-                            labelText: "Municipal/Regional Health Unit")),
+                            hintText: "Municipal/Regional Health Unit")),
                   ),
                   MyTextFieldTitle(text: 'Activities'),
                   Container(

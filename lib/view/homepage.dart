@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:my_capstone_project/constants/fonts.dart';
 import 'package:my_capstone_project/constants/style.dart';
@@ -72,10 +73,9 @@ class Home extends StatelessWidget {
                   textStyle: const TextStyle(fontSize: 30),
                 ),
                 onPressed: () {
-                  //Logging of attendance should be inserted here.
+                  //print(_determinePosition());
                 },
                 child: Column(
-                  //2 rows in a column for the Log Attendance text and location
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Padding(
@@ -218,4 +218,24 @@ class Home extends StatelessWidget {
       )),
     );
   }
+}
+
+Future _determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    return Future.error('Location services are disabled');
+  }
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    //return Future.error('Location permissions are denied');
+  }
+  if (permission == LocationPermission.deniedForever) {
+    return Future.error(
+        'Locations permission are permanently denied, we cannot request permissions');
+  }
+  return await Geolocator.getCurrentPosition();
 }
